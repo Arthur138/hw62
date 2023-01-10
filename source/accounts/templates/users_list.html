@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Список пользователей{% endblock %}
+
+{% block content %}
+    <h2>Список пользователей</h2></hr>
+    {% for user in user_obj %}
+    <h4>{{ user.username }}</h4>
+    <p><a class="btn btn-dark" href="{%  url 'accounts:user_detail' user.pk %}">More...</a></p>
+    <hr>
+{% endfor %}<br/>
+
+{% endblock %}

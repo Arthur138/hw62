@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{%  block nav %}
+    <li class="nav-item">
+          <a class="nav-link" href="{% url 'webapp:cart_index' %}">Cart<i class="bi bi-cart"></i></a>
+    </li>
+  {% if request.user.is_authenticated %}
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'webapp:order_list' %}">Orders</a>
+    </li>
+      {% if perms.webapp.add_product %}
+    <li class="nav-item">
+          <a class="nav-link" href="{% url 'webapp:product_add' %}">Add+</a>
+    </li>
+    {% endif %}
+         <li class="nav-item">
+        <a class="nav-link" href="{%   url 'accounts:user_detail' request.user.pk %}">Hi, {{ request.user.username }}</a>
+        </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:logout' %}?next={{ request.get_full_path }}">Logout</a>
+        </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:login' %}?next={% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.get_full_path }}{% endif %}">Login</a>
+        </li>
+      <li class="menu-right"><a href="{% url 'accounts:create' %}?next={% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.get_full_path }}{% endif %}" class="nav-link">Registration</a></li>
+  {% endif %}
+
+{%  endblock %}
+{% block content %}
+<h2 class="mb-4">Online Store</h2>
+        <form class="d-flex mx-auto " role="search">
+        {{ form.search }}
+        <button class="btn btn-outline-success ms-2" type="submit">Найти</button>
+    </form>
+    {% for product in products %}
+        <ul class="list-group mb-3">
+            <li class="list-group-item">
+                <h4><a href="{% url 'webapp:product_view' product.pk %}" style="color:deeppink;text-decoration: none;" >{{ product.name }}</a></h4>
+                <p>{{ product.price }}$</p>
+                <p>{{ product.get_category_display }}</p>
+            </li>
+        </ul>
+
+    {% endfor %}<br/>
+{% if is_paginated %}
+    {% include 'partial/pagination.html' %}
+{% endif %}
+{%  endblock %}

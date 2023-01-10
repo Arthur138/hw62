@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Пользователь{% endblock %}
+{% block nav %}
+    {% if user_obj.pk == request.user.pk %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:user_change' %}">Редактировать</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:password_change' %}">Смена пароля</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="card mb-3" >
+  <div class="row g-0">
+  {% if user_obj.profile.avatar %}
+    <div class="col-md-4">
+      <img src="{{ user_obj.profile.avatar.url }}" class="img-fluid rounded-start" alt="...">
+    </div>
+  {% endif %}
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Имя пользователя: {{ user_obj.username }}</h5>
+        <p  class="card-text"><b>Имя:</b> {{ user_obj.first_name }}</p>
+        <p class="card-text"><b>Фамилия:</b> {{ user_obj.last_name }}</p>
+        <p class="card-text"><b>Почта:</b> {{ user_obj.email }}</p>
+        <p class="card-text"><b>Гит:</b> {{ user_obj.profile.git_profile }}</p>
+        <p class="card-text"><b>О себе:</b> {{ user_obj.profile.about_user }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

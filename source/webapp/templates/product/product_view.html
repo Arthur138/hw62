@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="card">
+        <h5 class="card-header">{{ product.name }}</h5>
+        <div class="card-body">
+            <p class="card-text">Цена: {{ product.price }}</p>
+            <p class="card-text">Категория: {{ product.get_category_display }}</p>
+            <p class="card-text">Остаток: {{ product.balance }}</p>
+            <p class="card-text">Описание товара: {{ product.description }}</p>
+            {% include 'partial/form_add_to_cart.html' %}
+            {% if request.user.is_authenticated %}
+                {% if perms.webapp.change_product %}
+                    <a href="{% url 'webapp:product_update' product.pk %}" class="btn btn-primary">Редактировать</a>
+                {% endif %}
+                {% if perms.webapp.delete_product %}
+                    <a href="{% url 'webapp:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

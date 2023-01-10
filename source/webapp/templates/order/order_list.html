@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{#{% block nav %}#}
+{#  {% if request.user.is_authenticated %}#}
+{#       pass#}
+{#        {% endif %}#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+
+
+
+
+{% block content %}
+
+    <h1>Заказы</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Товар</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Цена</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <th>{{ order.product }}</th>
+                <td>{{ order.qty }}</td>
+                <td>{{ order.product.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
